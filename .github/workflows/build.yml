@@ -32,6 +32,12 @@ jobs:
         run: |
           npm install
 
+      - name: List files before linting
+        run: |
+          ls -alh
+          echo "Checking directory structure"
+          cat linters/.markdownlint.json
+
       - name: Testing on OS (${{ matrix.os }}) with Node.js (version ${{ matrix.node-version }}) attempt ${{ matrix.attempt }}
         run: |
           echo "Run attempt: ${{ matrix.attempt }}"
