@@ -34,9 +34,15 @@ jobs:
 
       - name: List files before linting
         run: |
-          ls -alh
-          echo "Checking directory structure"
-          cat linters/.markdownlint.json
+          if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
+            # For Linux and macOS
+            ls -alh
+            cat linters/.markdownlint.json
+          elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+            # For Windows
+            Get-ChildItem -Recurse
+            Get-Content linters/.markdownlint.json
+          fi
 
       - name: Testing on OS (${{ matrix.os }}) with Node.js (version ${{ matrix.node-version }}) attempt ${{ matrix.attempt }}
         run: |
